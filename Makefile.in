@@ -135,7 +135,8 @@ am_libnumcalc_a_OBJECTS = src/blas/dcopy.$(OBJEXT) \
 	src/blas/dscal.$(OBJEXT) src/blas/dswap.$(OBJEXT) \
 	src/blas/dtbsv.$(OBJEXT) src/blas/idamax.$(OBJEXT) \
 	src/blas/lsame.$(OBJEXT) src/blas/xerbla.$(OBJEXT) \
-	src/lapack/dgbtf2.$(OBJEXT) src/lapack/dgbtrs.$(OBJEXT)
+	src/interp/interp1.$(OBJEXT) src/lapack/dgbtf2.$(OBJEXT) \
+	src/lapack/dgbtrs.$(OBJEXT)
 libnumcalc_a_OBJECTS = $(am_libnumcalc_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -312,6 +313,7 @@ libnumcalc_a_SOURCES = \
     src/blas/idamax.c \
     src/blas/lsame.c \
     src/blas/xerbla.c \
+    src/interp/interp1.c \
     src/lapack/dgbtf2.c \
     src/lapack/dgbtrs.c
 
@@ -424,6 +426,14 @@ src/blas/lsame.$(OBJEXT): src/blas/$(am__dirstamp) \
 	src/blas/$(DEPDIR)/$(am__dirstamp)
 src/blas/xerbla.$(OBJEXT): src/blas/$(am__dirstamp) \
 	src/blas/$(DEPDIR)/$(am__dirstamp)
+src/interp/$(am__dirstamp):
+	@$(MKDIR_P) src/interp
+	@: > src/interp/$(am__dirstamp)
+src/interp/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/interp/$(DEPDIR)
+	@: > src/interp/$(DEPDIR)/$(am__dirstamp)
+src/interp/interp1.$(OBJEXT): src/interp/$(am__dirstamp) \
+	src/interp/$(DEPDIR)/$(am__dirstamp)
 src/lapack/$(am__dirstamp):
 	@$(MKDIR_P) src/lapack
 	@: > src/lapack/$(am__dirstamp)
@@ -443,6 +453,7 @@ libnumcalc.a: $(libnumcalc_a_OBJECTS) $(libnumcalc_a_DEPENDENCIES) $(EXTRA_libnu
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f src/blas/*.$(OBJEXT)
+	-rm -f src/interp/*.$(OBJEXT)
 	-rm -f src/lapack/*.$(OBJEXT)
 
 distclean-compile:
@@ -457,6 +468,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/blas/$(DEPDIR)/idamax.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/blas/$(DEPDIR)/lsame.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/blas/$(DEPDIR)/xerbla.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/interp/$(DEPDIR)/interp1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/lapack/$(DEPDIR)/dgbtf2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/lapack/$(DEPDIR)/dgbtrs.Po@am__quote@
 
@@ -732,6 +744,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f src/blas/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/blas/$(am__dirstamp)
+	-rm -f src/interp/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/interp/$(am__dirstamp)
 	-rm -f src/lapack/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/lapack/$(am__dirstamp)
 
@@ -744,7 +758,7 @@ clean-am: clean-generic clean-libLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf src/blas/$(DEPDIR) src/lapack/$(DEPDIR)
+	-rm -rf src/blas/$(DEPDIR) src/interp/$(DEPDIR) src/lapack/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -792,7 +806,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf src/blas/$(DEPDIR) src/lapack/$(DEPDIR)
+	-rm -rf src/blas/$(DEPDIR) src/interp/$(DEPDIR) src/lapack/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

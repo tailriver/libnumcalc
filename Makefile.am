@@ -13,5 +13,6 @@ libnumcalc_a_SOURCES = \
     src/blas/idamax.c \
     src/blas/lsame.c \
     src/blas/xerbla.c \
+    src/interp/interp1.c \
     src/lapack/dgbtf2.c \
     src/lapack/dgbtrs.c
