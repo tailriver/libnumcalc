@@ -1,4 +1,4 @@
-#include "blas_private.h"
+#include "common.h"
 
 void dswap(
     integer n,

@@ -139,7 +139,7 @@
 *  -- Translated from FORTRAN by Shinsuke Ogawa July 2013 --
 **/
 
-#include "blas_private.h"
+#include "common.h"
 
 void dger(
       integer M,

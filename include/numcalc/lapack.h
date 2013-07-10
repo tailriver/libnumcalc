@@ -1,4 +1,7 @@
 #pragma once
+#ifndef LIBNUMCALC_LAPACK_H
+#define LIBNUMCALC_LAPACK_H
+
 #include "typedef.h"
 
 void dgbtf2(
@@ -23,3 +26,5 @@ void dgbtrs(
       double* B,
       integer LDB,
       integer* INFO);
+
+#endif /* LIBNUMCALC_LAPACK_H */

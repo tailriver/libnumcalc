@@ -1,4 +1,4 @@
-#include "blas_private.h"
+#include "common.h"
 
 #ifdef HAVE_STDIO_H
 #include <stdio.h>

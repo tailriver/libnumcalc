@@ -1,4 +1,7 @@
 #pragma once
+#ifndef LIBNUMCALC_BLAS_H
+#define LIBNUMCALC_BLAS_H
+
 #include "typedef.h"
 
 double dasum(
@@ -102,3 +105,5 @@ logical lsame(
 void xerbla(
       const char* SRNAME,
       integer N);
+
+#endif /* LIBNUMCALC_BLAS_H */

@@ -154,7 +154,7 @@
 *  -- Translated from FORTRAN by Shinsuke Ogawa July 2013 --
 **/
 
-#include "lapack_private.h"
+#include "common.h"
 
 void dgbtf2(
       integer M,

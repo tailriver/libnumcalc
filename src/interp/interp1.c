@@ -1,6 +1,4 @@
-#include "interp_private.h"
-#include <interp.h>
-#include <stdio.h>
+#include "common.h"
 
 void interp1(
     integer nt,
@@ -35,7 +33,7 @@ void interp1(
 
     } else {
 
-        /* x0 is descending order */
+        /* xt is descending order */
         for (i = 0; i < n; i++) {
             if (xt[nt-1] > x[i]) {
                 t = nt - 1;

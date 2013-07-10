@@ -1,4 +1,7 @@
 #pragma once
+#ifndef LIBNUMCALC_INTERP_H
+#define LIBNUMCALC_INTERP_H
+
 #include "typedef.h"
 
 void interp1(
@@ -9,3 +12,5 @@ void interp1(
     const double* x,
     double* y,
     integer* hint);
+
+#endif /* LIBNUMCALC_INTERP_H */
