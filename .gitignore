@@ -1,3 +1,5 @@
 autom4te.cache/
 build/
+libnumcalc.vcxproj.user
 src/original/
+x64/
