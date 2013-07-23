@@ -4,6 +4,7 @@ AM_CFLAGS = -Wall
 lib_LIBRARIES = libnumcalc.a
 
 libnumcalc_a_SOURCES = \
+    blas/daxpy.c \
     blas/dcopy.c \
     blas/dgemv.c \
     blas/dger.c \
