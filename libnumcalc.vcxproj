@@ -109,19 +109,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\blas\daxpy.c" />
-    <ClCompile Include="src\blas\dcopy.c" />
-    <ClCompile Include="src\blas\dgemv.c" />
-    <ClCompile Include="src\blas\dger.c" />
-    <ClCompile Include="src\blas\dscal.c" />
-    <ClCompile Include="src\blas\dswap.c" />
-    <ClCompile Include="src\blas\dtbsv.c" />
-    <ClCompile Include="src\blas\idamax.c" />
-    <ClCompile Include="src\blas\lsame.c" />
-    <ClCompile Include="src\blas\xerbla.c" />
-    <ClCompile Include="src\interp\interp1.c" />
-    <ClCompile Include="src\lapack\dgbtf2.c" />
-    <ClCompile Include="src\lapack\dgbtrs.c" />
+    <ClCompile Include="lib\blas\daxpy.c" />
+    <ClCompile Include="lib\blas\dcopy.c" />
+    <ClCompile Include="lib\blas\dgemv.c" />
+    <ClCompile Include="lib\blas\dger.c" />
+    <ClCompile Include="lib\blas\dscal.c" />
+    <ClCompile Include="lib\blas\dswap.c" />
+    <ClCompile Include="lib\blas\dtbsv.c" />
+    <ClCompile Include="lib\blas\idamax.c" />
+    <ClCompile Include="lib\blas\lsame.c" />
+    <ClCompile Include="lib\blas\xerbla.c" />
+    <ClCompile Include="lib\interp\interp1.c" />
+    <ClCompile Include="lib\lapack\dgbtf2.c" />
+    <ClCompile Include="lib\lapack\dgbtrs.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

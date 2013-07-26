@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libnumcalc], [0.1], [shinsuke@tailriver.net])
-AC_CONFIG_SRCDIR([src/blas/dcopy.c])
+AC_INIT([numcalc], [0.1], [shinsuke@tailriver.net])
+AC_CONFIG_SRCDIR([lib/blas/daxpy.c])
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([subdir-objects])
+AM_INIT_AUTOMAKE
 
 # Checks for programs.
 AC_PROG_CC
@@ -23,5 +23,11 @@ AC_CHECK_HEADERS([string.h])
 # Checks for library functions.
 AC_FUNC_MALLOC
 
-AC_CONFIG_FILES([Makefile src/Makefile test/Makefile])
+AC_CONFIG_FILES([Makefile
+    include/Makefile
+    include/numcalc/Makefile
+    lib/Makefile
+    tests/Makefile
+    tests/interp/Makefile
+])
 AC_OUTPUT

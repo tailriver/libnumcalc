@@ -1,9 +1,11 @@
 AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -Wall
+AUTOMAKE_OPTIONS = subdir-objects
 
 lib_LIBRARIES = libnumcalc.a
 
 libnumcalc_a_SOURCES = \
+    blas/daxpy.c \
     blas/dcopy.c \
     blas/dgemv.c \
     blas/dger.c \
@@ -16,3 +18,10 @@ libnumcalc_a_SOURCES = \
     interp/interp1.c \
     lapack/dgbtf2.c \
     lapack/dgbtrs.c
+
+noinst_HEADERS = \
+    array_notation.h \
+    common.h \
+    blas/common.h \
+    interp/common.h \
+    lapack/common.h

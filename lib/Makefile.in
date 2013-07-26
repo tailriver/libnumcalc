@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -76,10 +77,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = interp1$(EXEEXT)
-subdir = test
+subdir = lib
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/depcomp
+	$(top_srcdir)/depcomp $(noinst_HEADERS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -88,12 +88,51 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-PROGRAMS = $(noinst_PROGRAMS)
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+am__installdirs = "$(DESTDIR)$(libdir)"
+LIBRARIES = $(lib_LIBRARIES)
+AR = ar
+ARFLAGS = cru
+AM_V_AR = $(am__v_AR_@AM_V@)
+am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
+am__v_AR_0 = @echo "  AR      " $@;
+am__v_AR_1 = 
+libnumcalc_a_AR = $(AR) $(ARFLAGS)
+libnumcalc_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_interp1_OBJECTS = interp/interp1.$(OBJEXT)
-interp1_OBJECTS = $(am_interp1_OBJECTS)
-interp1_LDADD = $(LDADD)
-interp1_DEPENDENCIES = $(top_builddir)/src/libnumcalc.a
+am_libnumcalc_a_OBJECTS = blas/daxpy.$(OBJEXT) blas/dcopy.$(OBJEXT) \
+	blas/dgemv.$(OBJEXT) blas/dger.$(OBJEXT) blas/dscal.$(OBJEXT) \
+	blas/dswap.$(OBJEXT) blas/dtbsv.$(OBJEXT) \
+	blas/idamax.$(OBJEXT) blas/lsame.$(OBJEXT) \
+	blas/xerbla.$(OBJEXT) interp/interp1.$(OBJEXT) \
+	lapack/dgbtf2.$(OBJEXT) lapack/dgbtrs.$(OBJEXT)
+libnumcalc_a_OBJECTS = $(am_libnumcalc_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -122,13 +161,14 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(interp1_SOURCES)
-DIST_SOURCES = $(interp1_SOURCES)
+SOURCES = $(libnumcalc_a_SOURCES)
+DIST_SOURCES = $(libnumcalc_a_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+HEADERS = $(noinst_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -239,8 +279,30 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -Wall
-LDADD = $(top_builddir)/src/libnumcalc.a
-interp1_SOURCES = interp/interp1.c
+AUTOMAKE_OPTIONS = subdir-objects
+lib_LIBRARIES = libnumcalc.a
+libnumcalc_a_SOURCES = \
+    blas/daxpy.c \
+    blas/dcopy.c \
+    blas/dgemv.c \
+    blas/dger.c \
+    blas/dscal.c \
+    blas/dswap.c \
+    blas/dtbsv.c \
+    blas/idamax.c \
+    blas/lsame.c \
+    blas/xerbla.c \
+    interp/interp1.c \
+    lapack/dgbtf2.c \
+    lapack/dgbtrs.c
+
+noinst_HEADERS = \
+    array_notation.h \
+    common.h \
+    blas/common.h \
+    interp/common.h \
+    lapack/common.h
+
 all: all-am
 
 .SUFFIXES:
@@ -254,9 +316,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu test/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu lib/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu test/Makefile
+	  $(AUTOMAKE) --gnu lib/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -275,9 +337,63 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+install-libLIBRARIES: $(lib_LIBRARIES)
+	@$(NORMAL_INSTALL)
+	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(libdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(libdir)" || exit 1; \
+	  echo " $(INSTALL_DATA) $$list2 '$(DESTDIR)$(libdir)'"; \
+	  $(INSTALL_DATA) $$list2 "$(DESTDIR)$(libdir)" || exit $$?; }
+	@$(POST_INSTALL)
+	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
+	for p in $$list; do \
+	  if test -f $$p; then \
+	    $(am__strip_dir) \
+	    echo " ( cd '$(DESTDIR)$(libdir)' && $(RANLIB) $$f )"; \
+	    ( cd "$(DESTDIR)$(libdir)" && $(RANLIB) $$f ) || exit $$?; \
+	  else :; fi; \
+	done
 
-clean-noinstPROGRAMS:
-	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+uninstall-libLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(libdir)'; $(am__uninstall_files_from_dir)
+
+clean-libLIBRARIES:
+	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
+blas/$(am__dirstamp):
+	@$(MKDIR_P) blas
+	@: > blas/$(am__dirstamp)
+blas/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) blas/$(DEPDIR)
+	@: > blas/$(DEPDIR)/$(am__dirstamp)
+blas/daxpy.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/dcopy.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/dgemv.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/dger.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/dscal.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/dswap.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/dtbsv.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/idamax.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/lsame.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
+blas/xerbla.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
 interp/$(am__dirstamp):
 	@$(MKDIR_P) interp
 	@: > interp/$(am__dirstamp)
@@ -286,19 +402,44 @@ interp/$(DEPDIR)/$(am__dirstamp):
 	@: > interp/$(DEPDIR)/$(am__dirstamp)
 interp/interp1.$(OBJEXT): interp/$(am__dirstamp) \
 	interp/$(DEPDIR)/$(am__dirstamp)
+lapack/$(am__dirstamp):
+	@$(MKDIR_P) lapack
+	@: > lapack/$(am__dirstamp)
+lapack/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) lapack/$(DEPDIR)
+	@: > lapack/$(DEPDIR)/$(am__dirstamp)
+lapack/dgbtf2.$(OBJEXT): lapack/$(am__dirstamp) \
+	lapack/$(DEPDIR)/$(am__dirstamp)
+lapack/dgbtrs.$(OBJEXT): lapack/$(am__dirstamp) \
+	lapack/$(DEPDIR)/$(am__dirstamp)
 
-interp1$(EXEEXT): $(interp1_OBJECTS) $(interp1_DEPENDENCIES) $(EXTRA_interp1_DEPENDENCIES) 
-	@rm -f interp1$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(interp1_OBJECTS) $(interp1_LDADD) $(LIBS)
+libnumcalc.a: $(libnumcalc_a_OBJECTS) $(libnumcalc_a_DEPENDENCIES) $(EXTRA_libnumcalc_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libnumcalc.a
+	$(AM_V_AR)$(libnumcalc_a_AR) libnumcalc.a $(libnumcalc_a_OBJECTS) $(libnumcalc_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libnumcalc.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f blas/*.$(OBJEXT)
 	-rm -f interp/*.$(OBJEXT)
+	-rm -f lapack/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/daxpy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dcopy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dgemv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dger.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dscal.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dswap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dtbsv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/idamax.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/lsame.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/xerbla.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@interp/$(DEPDIR)/interp1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@lapack/$(DEPDIR)/dgbtf2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@lapack/$(DEPDIR)/dgbtrs.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -400,8 +541,11 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(LIBRARIES) $(HEADERS)
 installdirs:
+	for dir in "$(DESTDIR)$(libdir)"; do \
+	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -428,18 +572,22 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f blas/$(DEPDIR)/$(am__dirstamp)
+	-rm -f blas/$(am__dirstamp)
 	-rm -f interp/$(DEPDIR)/$(am__dirstamp)
 	-rm -f interp/$(am__dirstamp)
+	-rm -f lapack/$(DEPDIR)/$(am__dirstamp)
+	-rm -f lapack/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-noinstPROGRAMS mostlyclean-am
+clean-am: clean-generic clean-libLIBRARIES mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf interp/$(DEPDIR)
+	-rm -rf blas/$(DEPDIR) interp/$(DEPDIR) lapack/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -462,7 +610,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am:
+install-exec-am: install-libLIBRARIES
 
 install-html: install-html-am
 
@@ -485,7 +633,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf interp/$(DEPDIR)
+	-rm -rf blas/$(DEPDIR) interp/$(DEPDIR) lapack/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -501,22 +649,22 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am:
+uninstall-am: uninstall-libLIBRARIES
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-noinstPROGRAMS cscopelist-am ctags ctags-am distclean \
+	clean-libLIBRARIES cscopelist-am ctags ctags-am distclean \
 	distclean-compile distclean-generic distclean-tags distdir dvi \
 	dvi-am html html-am info info-am install install-am \
 	install-data install-data-am install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am
+	install-info install-info-am install-libLIBRARIES install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-libLIBRARIES
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
