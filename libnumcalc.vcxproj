@@ -109,6 +109,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\blasext\dsum.c" />
+    <ClCompile Include="src\blas\dasum.c" />
     <ClCompile Include="src\blas\daxpy.c" />
     <ClCompile Include="src\blas\dcopy.c" />
     <ClCompile Include="src\blas\dgemv.c" />
