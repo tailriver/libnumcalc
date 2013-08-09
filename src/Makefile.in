@@ -125,12 +125,13 @@ am__v_AR_1 =
 libnumcalc_a_AR = $(AR) $(ARFLAGS)
 libnumcalc_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_libnumcalc_a_OBJECTS = blas/daxpy.$(OBJEXT) blas/dcopy.$(OBJEXT) \
-	blas/dgemv.$(OBJEXT) blas/dger.$(OBJEXT) blas/dscal.$(OBJEXT) \
-	blas/dswap.$(OBJEXT) blas/dtbsv.$(OBJEXT) \
+am_libnumcalc_a_OBJECTS = blas/dasum.$(OBJEXT) blas/daxpy.$(OBJEXT) \
+	blas/dcopy.$(OBJEXT) blas/dgemv.$(OBJEXT) blas/dger.$(OBJEXT) \
+	blas/dscal.$(OBJEXT) blas/dswap.$(OBJEXT) blas/dtbsv.$(OBJEXT) \
 	blas/idamax.$(OBJEXT) blas/lsame.$(OBJEXT) \
-	blas/xerbla.$(OBJEXT) interp/interp1.$(OBJEXT) \
-	lapack/dgbtf2.$(OBJEXT) lapack/dgbtrs.$(OBJEXT)
+	blas/xerbla.$(OBJEXT) blasext/dsum.$(OBJEXT) \
+	interp/interp1.$(OBJEXT) lapack/dgbtf2.$(OBJEXT) \
+	lapack/dgbtrs.$(OBJEXT)
 libnumcalc_a_OBJECTS = $(am_libnumcalc_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -279,6 +280,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -Wall
 lib_LIBRARIES = libnumcalc.a
 libnumcalc_a_SOURCES = \
+    blas/dasum.c \
     blas/daxpy.c \
     blas/dcopy.c \
     blas/dgemv.c \
@@ -289,6 +291,7 @@ libnumcalc_a_SOURCES = \
     blas/idamax.c \
     blas/lsame.c \
     blas/xerbla.c \
+    blasext/dsum.c \
     interp/interp1.c \
     lapack/dgbtf2.c \
     lapack/dgbtrs.c
@@ -364,6 +367,8 @@ blas/$(am__dirstamp):
 blas/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) blas/$(DEPDIR)
 	@: > blas/$(DEPDIR)/$(am__dirstamp)
+blas/dasum.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
 blas/daxpy.$(OBJEXT): blas/$(am__dirstamp) \
 	blas/$(DEPDIR)/$(am__dirstamp)
 blas/dcopy.$(OBJEXT): blas/$(am__dirstamp) \
@@ -384,6 +389,14 @@ blas/lsame.$(OBJEXT): blas/$(am__dirstamp) \
 	blas/$(DEPDIR)/$(am__dirstamp)
 blas/xerbla.$(OBJEXT): blas/$(am__dirstamp) \
 	blas/$(DEPDIR)/$(am__dirstamp)
+blasext/$(am__dirstamp):
+	@$(MKDIR_P) blasext
+	@: > blasext/$(am__dirstamp)
+blasext/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) blasext/$(DEPDIR)
+	@: > blasext/$(DEPDIR)/$(am__dirstamp)
+blasext/dsum.$(OBJEXT): blasext/$(am__dirstamp) \
+	blasext/$(DEPDIR)/$(am__dirstamp)
 interp/$(am__dirstamp):
 	@$(MKDIR_P) interp
 	@: > interp/$(am__dirstamp)
@@ -411,12 +424,14 @@ libnumcalc.a: $(libnumcalc_a_OBJECTS) $(libnumcalc_a_DEPENDENCIES) $(EXTRA_libnu
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f blas/*.$(OBJEXT)
+	-rm -f blasext/*.$(OBJEXT)
 	-rm -f interp/*.$(OBJEXT)
 	-rm -f lapack/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dasum.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/daxpy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dcopy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dgemv.Po@am__quote@
@@ -427,6 +442,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/idamax.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/lsame.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/xerbla.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blasext/$(DEPDIR)/dsum.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@interp/$(DEPDIR)/interp1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lapack/$(DEPDIR)/dgbtf2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lapack/$(DEPDIR)/dgbtrs.Po@am__quote@
@@ -564,6 +580,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f blas/$(DEPDIR)/$(am__dirstamp)
 	-rm -f blas/$(am__dirstamp)
+	-rm -f blasext/$(DEPDIR)/$(am__dirstamp)
+	-rm -f blasext/$(am__dirstamp)
 	-rm -f interp/$(DEPDIR)/$(am__dirstamp)
 	-rm -f interp/$(am__dirstamp)
 	-rm -f lapack/$(DEPDIR)/$(am__dirstamp)
@@ -577,7 +595,7 @@ clean: clean-am
 clean-am: clean-generic clean-libLIBRARIES mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf blas/$(DEPDIR) interp/$(DEPDIR) lapack/$(DEPDIR)
+	-rm -rf blas/$(DEPDIR) blasext/$(DEPDIR) interp/$(DEPDIR) lapack/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -623,7 +641,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf blas/$(DEPDIR) interp/$(DEPDIR) lapack/$(DEPDIR)
+	-rm -rf blas/$(DEPDIR) blasext/$(DEPDIR) interp/$(DEPDIR) lapack/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
