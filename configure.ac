@@ -29,6 +29,7 @@ AC_CONFIG_FILES([Makefile
     lib/Makefile
     tests/Makefile
     tests/blas/Makefile
+    tests/blasext/Makefile
     tests/interp/Makefile
 ])
 AC_OUTPUT

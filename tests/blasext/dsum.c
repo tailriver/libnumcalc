@@ -1,4 +1,4 @@
-#include <numcalc/blas.h>
+#include <numcalc/blasext.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,33 +16,33 @@ int main(void) {
     /* incx = 1 */
     expected = 0.0;
     for (i = 0; i < 10; i++) {
-        expected += fabs(x[i]);
+        expected += x[i];
     }
-    got = dasum(10, x, 1);
+    got = dsum(10, x, 1);
     printf("expected: %e, got: %e\n", expected, got);
 
     /* incx = 2 */
     expected = 0.0;
     for (i = 0; i < 10; i += 2) {
-        expected += fabs(x[i]);
+        expected += x[i];
     }
-    got = dasum(5, x, 2);
+    got = dsum(5, x, 2);
     printf("expected: %e, got: %e\n", expected, got);
 
     /* incx = -1 */
     expected = 0.0;
     for (i = 9; i > 1; i--) {
-        expected += fabs(x[i]);
+        expected += x[i];
     }
-    got = dasum(8, &x[2], -1);
+    got = dsum(8, &x[2], -1);
     printf("expected: %e, got: %e\n", expected, got);
 
     /* incx = -2 */
     expected = 0.0;
     for (i = 9; i > 2; i -= 2) {
-        expected += fabs(x[i]);
+        expected += x[i];
     }
-    got = dasum(4, &x[3], -2);
+    got = dsum(4, &x[3], -2);
     printf("expected: %e, got: %e\n", expected, got);
 
     return EXIT_SUCCESS;
