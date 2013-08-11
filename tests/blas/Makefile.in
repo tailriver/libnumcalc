@@ -76,7 +76,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = dasum$(EXEEXT)
+noinst_PROGRAMS = dasum$(EXEEXT) dcopy$(EXEEXT)
 subdir = tests/blas
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -93,6 +93,10 @@ am_dasum_OBJECTS = dasum.$(OBJEXT)
 dasum_OBJECTS = $(am_dasum_OBJECTS)
 dasum_LDADD = $(LDADD)
 dasum_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
+am_dcopy_OBJECTS = dcopy.$(OBJEXT)
+dcopy_OBJECTS = $(am_dcopy_OBJECTS)
+dcopy_LDADD = $(LDADD)
+dcopy_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -121,8 +125,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(dasum_SOURCES)
-DIST_SOURCES = $(dasum_SOURCES)
+SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES)
+DIST_SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -240,6 +244,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -Wall
 LDADD = $(top_builddir)/lib/libnumcalc.a
 dasum_SOURCES = dasum.c
+dcopy_SOURCES = dcopy.c
 all: all-am
 
 .SUFFIXES:
@@ -282,6 +287,10 @@ dasum$(EXEEXT): $(dasum_OBJECTS) $(dasum_DEPENDENCIES) $(EXTRA_dasum_DEPENDENCIE
 	@rm -f dasum$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(dasum_OBJECTS) $(dasum_LDADD) $(LIBS)
 
+dcopy$(EXEEXT): $(dcopy_OBJECTS) $(dcopy_DEPENDENCIES) $(EXTRA_dcopy_DEPENDENCIES) 
+	@rm -f dcopy$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(dcopy_OBJECTS) $(dcopy_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -289,6 +298,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dasum.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dcopy.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
