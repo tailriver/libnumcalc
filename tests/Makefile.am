@@ -1,1 +1,1 @@
-SUBDIRS = interp
+SUBDIRS = blas interp

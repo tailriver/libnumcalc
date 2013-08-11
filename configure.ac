@@ -28,6 +28,7 @@ AC_CONFIG_FILES([Makefile
     include/numcalc/Makefile
     lib/Makefile
     tests/Makefile
+    tests/blas/Makefile
     tests/interp/Makefile
 ])
 AC_OUTPUT
