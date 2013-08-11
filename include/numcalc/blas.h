@@ -6,7 +6,7 @@
 
 double dasum(
     integer n,
-    double* dx,
+    const double* dx,
     integer incx);
 
 

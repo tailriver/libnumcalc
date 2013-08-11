@@ -245,6 +245,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 pkginclude_HEADERS = \
     blas.h \
+    blasext.h \
     interp.h \
     lapack.h \
     typedef.h

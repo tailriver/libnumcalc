@@ -1,18 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="lib\blas\xerbla.c" />
+    <ClCompile Include="lib\blasext\dsum.c" />
+    <ClCompile Include="lib\blas\dasum.c" />
     <ClCompile Include="lib\blas\daxpy.c" />
     <ClCompile Include="lib\blas\dcopy.c" />
-    <ClCompile Include="lib\lapack\dgbtf2.c" />
-    <ClCompile Include="lib\lapack\dgbtrs.c" />
     <ClCompile Include="lib\blas\dgemv.c" />
     <ClCompile Include="lib\blas\dger.c" />
     <ClCompile Include="lib\blas\dscal.c" />
     <ClCompile Include="lib\blas\dswap.c" />
     <ClCompile Include="lib\blas\dtbsv.c" />
     <ClCompile Include="lib\blas\idamax.c" />
-    <ClCompile Include="lib\interp\interp1.c" />
     <ClCompile Include="lib\blas\lsame.c" />
+    <ClCompile Include="lib\blas\xerbla.c" />
+    <ClCompile Include="lib\interp\interp1.c" />
+    <ClCompile Include="lib\lapack\dgbtf2.c" />
+    <ClCompile Include="lib\lapack\dgbtrs.c" />
   </ItemGroup>
 </Project>
