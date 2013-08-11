@@ -76,7 +76,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = dasum$(EXEEXT) dcopy$(EXEEXT)
+noinst_PROGRAMS = dasum$(EXEEXT) dcopy$(EXEEXT) lsame$(EXEEXT)
 subdir = tests/blas
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -97,6 +97,10 @@ am_dcopy_OBJECTS = dcopy.$(OBJEXT)
 dcopy_OBJECTS = $(am_dcopy_OBJECTS)
 dcopy_LDADD = $(LDADD)
 dcopy_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
+am_lsame_OBJECTS = lsame.$(OBJEXT)
+lsame_OBJECTS = $(am_lsame_OBJECTS)
+lsame_LDADD = $(LDADD)
+lsame_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -125,8 +129,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES)
-DIST_SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES)
+SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) $(lsame_SOURCES)
+DIST_SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) $(lsame_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -245,6 +249,7 @@ AM_CFLAGS = -Wall
 LDADD = $(top_builddir)/lib/libnumcalc.a
 dasum_SOURCES = dasum.c
 dcopy_SOURCES = dcopy.c
+lsame_SOURCES = lsame.c
 all: all-am
 
 .SUFFIXES:
@@ -291,6 +296,10 @@ dcopy$(EXEEXT): $(dcopy_OBJECTS) $(dcopy_DEPENDENCIES) $(EXTRA_dcopy_DEPENDENCIE
 	@rm -f dcopy$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(dcopy_OBJECTS) $(dcopy_LDADD) $(LIBS)
 
+lsame$(EXEEXT): $(lsame_OBJECTS) $(lsame_DEPENDENCIES) $(EXTRA_lsame_DEPENDENCIES) 
+	@rm -f lsame$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(lsame_OBJECTS) $(lsame_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -299,6 +308,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dasum.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dcopy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lsame.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
