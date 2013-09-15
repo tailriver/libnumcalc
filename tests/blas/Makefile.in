@@ -76,8 +76,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = dasum$(EXEEXT) dcopy$(EXEEXT) dscal$(EXEEXT) \
-	lsame$(EXEEXT)
+noinst_PROGRAMS = dasum$(EXEEXT) dcopy$(EXEEXT) dger$(EXEEXT) \
+	dscal$(EXEEXT) lsame$(EXEEXT)
 subdir = tests/blas
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -94,12 +94,16 @@ am_dasum_OBJECTS = dasum.$(OBJEXT)
 dasum_OBJECTS = $(am_dasum_OBJECTS)
 dasum_LDADD = $(LDADD)
 dasum_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
-am_dcopy_OBJECTS = dscal.$(OBJEXT)
+am_dcopy_OBJECTS = dcopy.$(OBJEXT)
 dcopy_OBJECTS = $(am_dcopy_OBJECTS)
 dcopy_LDADD = $(LDADD)
 dcopy_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
-dscal_SOURCES = dscal.c
-dscal_OBJECTS = dscal.$(OBJEXT)
+am_dger_OBJECTS = dger.$(OBJEXT)
+dger_OBJECTS = $(am_dger_OBJECTS)
+dger_LDADD = $(LDADD)
+dger_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
+am_dscal_OBJECTS = dscal.$(OBJEXT)
+dscal_OBJECTS = $(am_dscal_OBJECTS)
 dscal_LDADD = $(LDADD)
 dscal_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
 am_lsame_OBJECTS = lsame.$(OBJEXT)
@@ -134,9 +138,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) dscal.c $(lsame_SOURCES)
-DIST_SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) dscal.c \
-	$(lsame_SOURCES)
+SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) $(dger_SOURCES) \
+	$(dscal_SOURCES) $(lsame_SOURCES)
+DIST_SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) $(dger_SOURCES) \
+	$(dscal_SOURCES) $(lsame_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -254,7 +259,9 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -Wall
 LDADD = $(top_builddir)/lib/libnumcalc.a
 dasum_SOURCES = dasum.c
-dcopy_SOURCES = dscal.c
+dcopy_SOURCES = dcopy.c
+dger_SOURCES = dger.c
+dscal_SOURCES = dscal.c
 lsame_SOURCES = lsame.c
 all: all-am
 
@@ -302,6 +309,10 @@ dcopy$(EXEEXT): $(dcopy_OBJECTS) $(dcopy_DEPENDENCIES) $(EXTRA_dcopy_DEPENDENCIE
 	@rm -f dcopy$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(dcopy_OBJECTS) $(dcopy_LDADD) $(LIBS)
 
+dger$(EXEEXT): $(dger_OBJECTS) $(dger_DEPENDENCIES) $(EXTRA_dger_DEPENDENCIES) 
+	@rm -f dger$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(dger_OBJECTS) $(dger_LDADD) $(LIBS)
+
 dscal$(EXEEXT): $(dscal_OBJECTS) $(dscal_DEPENDENCIES) $(EXTRA_dscal_DEPENDENCIES) 
 	@rm -f dscal$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(dscal_OBJECTS) $(dscal_LDADD) $(LIBS)
@@ -317,6 +328,8 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dasum.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dcopy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dger.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dscal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lsame.Po@am__quote@
 
