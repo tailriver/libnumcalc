@@ -142,76 +142,70 @@
 #include "common.h"
 
 void dger(
-      integer M,
-      integer N,
-      double ALPHA,
-      const double* X,
-      integer INCX,
-      const double* Y,
-      integer INCY,
-      double* A,
-      integer LDA)
+    integer M,
+    integer N,
+    double ALPHA,
+    const double* X,
+    integer INCX,
+    const double* Y,
+    integer INCY,
+    double* A,
+    integer LDA)
 {
-      const double ZERO = 0.0;
+    const double ZERO = 0.0;
 
-      double TEMP;
-      integer I, INFO, IX, J, JY, KX;
+    double TEMP;
+    integer INFO, I, J, IX, JY, KX;
+    double *AP;
+    const double *XP, *YP;
 
-      INFO = 0;
-      if (M < 0) {
-          INFO = 1;
-      } else if (N < 0) {
-          INFO = 2;
-      } else if (INCX == 0) {
-          INFO = 5;
-      } else if (INCY == 0) {
-          INFO = 7;
-      } else if (LDA < MAX(1,M)) {
-          INFO = 9;
-      }
-      if (INFO != 0) {
-          xerbla("DGER", INFO);
-          return;
-      }
-/**
-*     Quick return if possible.
-**/
-      if ((M == 0) || (N == 0) || (ALPHA == ZERO)) return;
-/**
-*     Start the operations. In this version the elements of A are
-*     accessed sequentially with one pass through A.
-**/
-      if (INCY > 0) {
-          JY = 1;
-      } else {
-          JY = 1 - (N-1)*INCY;
-      }
-      if (INCX == 1) {
-          for (J = 1; J <= N; J++) {
-              if (Y(JY) != ZERO) {
-                  TEMP = ALPHA*Y(JY);
-                  for (I = 1; I <= M; I++) {
-                      A(I,J) = A(I,J) + X(I)*TEMP;
-                  }
-              }
-              JY = JY + INCY;
-          }
-      } else {
-          if (INCX > 0) {
-              KX = 1;
-          } else {
-              KX = 1 - (M-1)*INCX;
-          }
-          for (J = 1; J <= N; J++) {
-              if (Y(JY) != ZERO) {
-                  TEMP = ALPHA*Y(JY);
-                  IX = KX;
-                  for (I = 1; I <= M; I++) {
-                      A(I,J) = A(I,J) + X(IX)*TEMP;
-                      IX = IX + INCX;
-                  }
-              }
-              JY = JY + INCY;
-          }
-      }
+    INFO = 0;
+    if (M < 0) {
+        INFO = 1;
+    } else if (N < 0) {
+        INFO = 2;
+    } else if (INCX == 0) {
+        INFO = 5;
+    } else if (INCY == 0) {
+        INFO = 7;
+    } else if (LDA < MAX(1,M)) {
+        INFO = 9;
+    }
+    if (INFO != 0) {
+        xerbla("DGER", INFO);
+        return;
+    }
+
+    // Quick return if possible.
+    if (M == 0 || N == 0 || ALPHA == ZERO) return;
+
+    JY = INCY > 0 ? 0 : ((N - 1) * INCY);
+    YP = &Y[JY];
+    if (INCX == 1) {
+        KX = -1;
+        for (J = 0; J < N; ++J, YP += INCY) {
+            TEMP = *YP;
+            if (TEMP == ZERO) continue;
+
+            TEMP *= ALPHA;
+            AP = &A[LDA*J-1];
+            XP = &X[KX];
+            for (I = 0; I < M; ++I) {
+                *++AP += *++XP * TEMP;
+            }
+        }
+    } else {
+        KX = INCX > 0 ? 0 : ((M - 1) * INCX);
+        for (J = 0; J < N; ++J, YP += INCY) {
+            TEMP = *YP;
+            if (TEMP == ZERO) continue;
+
+            TEMP *= ALPHA;
+            AP = &A[LDA*J-1];
+            XP = &X[KX];
+            for (I = 0; I < M; ++I, XP += INCX) {
+                *++AP += *XP * TEMP;
+            }
+        }
+    }
 }
