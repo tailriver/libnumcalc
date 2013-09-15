@@ -5,7 +5,7 @@
 #include "../common.h"
 
 int main(int argc, char** argv) {
-  double alpha, *x, *y, *A, *B;
+  double alpha, *x, *y, *A, *B, diff, difftemp;
   int m, n, incx, incy, lda, mm, nn, i, j, ix, iy;
 
   m = atoi(argv[1]);
@@ -42,7 +42,18 @@ int main(int argc, char** argv) {
   }
 
   dger(m, n, alpha, x, incx, y, incy, A, lda); 
-  for (i = 0; i < m; i++)
-    for (j = 0; j < n; j++)
-      printf("[%d,%d] %e %e\n", i, j, A[i+lda*j], B[i+lda*j]);
+
+  diff = 0.0;
+  for (i = 0; i < m; i++) {
+    for (j = 0; j < n; j++) {
+      difftemp = fabs(A[i+lda*j] - B[i+lda*j]);
+      if (difftemp > diff) diff = difftemp;
+    }
+  }
+  printf("max diff. %e\n", diff);
+
+  free(x);
+  free(y);
+  free(A);
+  free(B);
 }
