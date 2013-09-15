@@ -2,48 +2,40 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include "../common.h"
 
-int main(void) {
-    double x[10], expected, got;
-    size_t i;
+int main(int argc, const char* argv[]) {
+    double expected, got;
+    double *x;
+    int n, incx, nx, i;
 
-    srand(time(NULL));
-    for (i = 0; i < 10; i++) {
-        x[i] = (double) (rand() - RAND_MAX / 2) / RAND_MAX;
+    if (argc != 3) {
+        fprintf(stderr, "Usage: ./dsum n incx\n");
+        return EXIT_FAILURE;
     }
 
-    /* incx = 1 */
+    n = atoi(argv[1]);
+    incx = atoi(argv[2]);
+    nx = (n - 1) * fabs(incx) + 1;
+
+    x = malloc_double_array(nx, -1, 1);
+
     expected = 0.0;
-    for (i = 0; i < 10; i++) {
-        expected += x[i];
+    if (incx > 0) {
+        for (i = 0; i < nx; i += incx) {
+            expected += x[i];
+        }
     }
-    got = dsum(10, x, 1);
-    printf("expected: %e, got: %e\n", expected, got);
-
-    /* incx = 2 */
-    expected = 0.0;
-    for (i = 0; i < 10; i += 2) {
-        expected += x[i];
+    else if (incx < 0) {
+        for (i = nx - 1; i >= 0; i += incx) {
+            expected += x[i];
+        }
     }
-    got = dsum(5, x, 2);
-    printf("expected: %e, got: %e\n", expected, got);
-
-    /* incx = -1 */
-    expected = 0.0;
-    for (i = 9; i > 1; i--) {
-        expected += x[i];
+    else {
+        expected = x[0];
     }
-    got = dsum(8, &x[2], -1);
-    printf("expected: %e, got: %e\n", expected, got);
-
-    /* incx = -2 */
-    expected = 0.0;
-    for (i = 9; i > 2; i -= 2) {
-        expected += x[i];
-    }
-    got = dsum(4, &x[3], -2);
-    printf("expected: %e, got: %e\n", expected, got);
+    got = dsum(n, x, incx);
+    printf("n=%d, incx=%d, expected: %e, got: %e\n", n, incx, expected, got);
 
     return EXIT_SUCCESS;
 }

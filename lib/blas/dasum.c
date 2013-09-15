@@ -12,7 +12,7 @@ double dasum(
     if (n < 1) return 0.0;
 
     /* fast return for unrollable loop */
-    if (n == 1 || incx == 0) return *dx;
+    if (n == 1 || incx == 0) return ABS(*dx);
 
     asum = 0.0;
     if (incx == 1) {

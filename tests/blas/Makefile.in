@@ -76,7 +76,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = dasum$(EXEEXT) dcopy$(EXEEXT) lsame$(EXEEXT)
+noinst_PROGRAMS = dasum$(EXEEXT) dcopy$(EXEEXT) dscal$(EXEEXT) \
+	lsame$(EXEEXT)
 subdir = tests/blas
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -93,10 +94,14 @@ am_dasum_OBJECTS = dasum.$(OBJEXT)
 dasum_OBJECTS = $(am_dasum_OBJECTS)
 dasum_LDADD = $(LDADD)
 dasum_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
-am_dcopy_OBJECTS = dcopy.$(OBJEXT)
+am_dcopy_OBJECTS = dscal.$(OBJEXT)
 dcopy_OBJECTS = $(am_dcopy_OBJECTS)
 dcopy_LDADD = $(LDADD)
 dcopy_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
+dscal_SOURCES = dscal.c
+dscal_OBJECTS = dscal.$(OBJEXT)
+dscal_LDADD = $(LDADD)
+dscal_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
 am_lsame_OBJECTS = lsame.$(OBJEXT)
 lsame_OBJECTS = $(am_lsame_OBJECTS)
 lsame_LDADD = $(LDADD)
@@ -129,8 +134,9 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) $(lsame_SOURCES)
-DIST_SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) $(lsame_SOURCES)
+SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) dscal.c $(lsame_SOURCES)
+DIST_SOURCES = $(dasum_SOURCES) $(dcopy_SOURCES) dscal.c \
+	$(lsame_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -248,7 +254,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -Wall
 LDADD = $(top_builddir)/lib/libnumcalc.a
 dasum_SOURCES = dasum.c
-dcopy_SOURCES = dcopy.c
+dcopy_SOURCES = dscal.c
 lsame_SOURCES = lsame.c
 all: all-am
 
@@ -296,6 +302,10 @@ dcopy$(EXEEXT): $(dcopy_OBJECTS) $(dcopy_DEPENDENCIES) $(EXTRA_dcopy_DEPENDENCIE
 	@rm -f dcopy$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(dcopy_OBJECTS) $(dcopy_LDADD) $(LIBS)
 
+dscal$(EXEEXT): $(dscal_OBJECTS) $(dscal_DEPENDENCIES) $(EXTRA_dscal_DEPENDENCIES) 
+	@rm -f dscal$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(dscal_OBJECTS) $(dscal_LDADD) $(LIBS)
+
 lsame$(EXEEXT): $(lsame_OBJECTS) $(lsame_DEPENDENCIES) $(EXTRA_lsame_DEPENDENCIES) 
 	@rm -f lsame$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(lsame_OBJECTS) $(lsame_LDADD) $(LIBS)
@@ -307,7 +317,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dasum.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dcopy.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dscal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lsame.Po@am__quote@
 
 .c.o:
