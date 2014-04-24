@@ -110,6 +110,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="lib\blasext\dsum.c" />
+    <ClCompile Include="lib\blasext\ssum.c" />
     <ClCompile Include="lib\blas\dasum.c" />
     <ClCompile Include="lib\blas\daxpy.c" />
     <ClCompile Include="lib\blas\dcopy.c" />
@@ -120,10 +121,25 @@
     <ClCompile Include="lib\blas\dtbsv.c" />
     <ClCompile Include="lib\blas\idamax.c" />
     <ClCompile Include="lib\blas\lsame.c" />
+    <ClCompile Include="lib\blas\scopy.c" />
     <ClCompile Include="lib\blas\xerbla.c" />
-    <ClCompile Include="lib\interp\interp1.c" />
+    <ClCompile Include="lib\interp\dinterp1.c" />
+    <ClCompile Include="lib\interp\sinterp1.c" />
     <ClCompile Include="lib\lapack\dgbtf2.c" />
     <ClCompile Include="lib\lapack\dgbtrs.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\numcalc\blas.h" />
+    <ClInclude Include="include\numcalc\blasext.h" />
+    <ClInclude Include="include\numcalc\interp.h" />
+    <ClInclude Include="include\numcalc\lapack.h" />
+    <ClInclude Include="include\numcalc\typedef.h" />
+    <ClInclude Include="lib\array_notation.h" />
+    <ClInclude Include="lib\blasext\common.h" />
+    <ClInclude Include="lib\blas\common.h" />
+    <ClInclude Include="lib\common.h" />
+    <ClInclude Include="lib\interp\common.h" />
+    <ClInclude Include="lib\lapack\common.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
