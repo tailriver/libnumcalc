@@ -5,6 +5,7 @@ AUTOMAKE_OPTIONS = subdir-objects
 lib_LIBRARIES = libnumcalc.a
 
 libnumcalc_a_SOURCES = \
+    blas/scopy.c \
     blas/dasum.c \
     blas/daxpy.c \
     blas/dcopy.c \
@@ -16,8 +17,10 @@ libnumcalc_a_SOURCES = \
     blas/idamax.c \
     blas/lsame.c \
     blas/xerbla.c \
+    blasext/ssum.c \
     blasext/dsum.c \
-    interp/interp1.c \
+    interp/sinterp1.c \
+    interp/dinterp1.c \
     lapack/dgbtf2.c \
     lapack/dgbtrs.c
 

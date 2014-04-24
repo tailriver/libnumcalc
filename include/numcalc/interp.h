@@ -4,7 +4,16 @@
 
 #include "typedef.h"
 
-void interp1(
+void sinterp1(
+    integer nt,
+    const float* xt,
+    const float* yt,
+    integer n,
+    const float* x,
+    float* y,
+    integer* hint);
+
+void dinterp1(
     integer nt,
     const double* xt,
     const double* yt,

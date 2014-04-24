@@ -4,6 +4,14 @@
 
 #include "typedef.h"
 
+void scopy(
+      integer n,
+      const float* dx,
+      integer incx,
+      float* dy,
+      integer incy);
+
+
 double dasum(
     integer n,
     const double* dx,

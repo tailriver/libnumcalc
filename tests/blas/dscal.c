@@ -23,6 +23,7 @@ int main(int argc, const char* argv[]) {
     dcopy(nx, x, 1, y, 1);
 
     dscal(nx, da, x, incx);
+    diff = 0;
     if (incx > 0) {
         for (i = 0; i < nx; i += incx) {
             diff += x[i] - da * y[i];

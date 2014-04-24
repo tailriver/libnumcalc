@@ -3,7 +3,7 @@
 
 int main(void) {
     unsigned char c;
-    size_t expected, got, i;
+    size_t expected, got;
 
     expected = 0;
     got = 0;

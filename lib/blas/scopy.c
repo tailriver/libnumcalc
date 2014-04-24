@@ -5,11 +5,11 @@
 #endif
 
 
-void dcopy(
+void scopy(
     integer n,
-    const double* dx,
+    const float* dx,
     integer incx,
-    double* dy,
+    float* dy,
     integer incy)
 {
     integer i, ix, iy;

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([numcalc], [0.1], [shinsuke@tailriver.net])
+AC_INIT([numcalc], [0.1.1], [shinsuke@tailriver.net])
 AC_CONFIG_SRCDIR([lib/blas/daxpy.c])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE
@@ -12,11 +12,11 @@ AC_PROG_CC
 AC_PROG_RANLIB
 
 # Checks for libraries.
+AC_CHECK_LIB([m], [sin])
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdio.h])
-AC_CHECK_HEADERS([stdlib.h])
-AC_CHECK_HEADERS([string.h])
+AC_CHECK_HEADERS([math.h])
+AC_CHECK_HEADERS([time.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 

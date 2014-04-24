@@ -4,6 +4,11 @@
 
 #include "typedef.h"
 
+float ssum(
+    integer n,
+    const float* dx,
+    integer incx);
+
 double dsum(
     integer n,
     const double* dx,

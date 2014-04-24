@@ -126,13 +126,14 @@ am__v_AR_1 =
 libnumcalc_a_AR = $(AR) $(ARFLAGS)
 libnumcalc_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_libnumcalc_a_OBJECTS = blas/dasum.$(OBJEXT) blas/daxpy.$(OBJEXT) \
-	blas/dcopy.$(OBJEXT) blas/dgemv.$(OBJEXT) blas/dger.$(OBJEXT) \
-	blas/dscal.$(OBJEXT) blas/dswap.$(OBJEXT) blas/dtbsv.$(OBJEXT) \
-	blas/idamax.$(OBJEXT) blas/lsame.$(OBJEXT) \
-	blas/xerbla.$(OBJEXT) blasext/dsum.$(OBJEXT) \
-	interp/interp1.$(OBJEXT) lapack/dgbtf2.$(OBJEXT) \
-	lapack/dgbtrs.$(OBJEXT)
+am_libnumcalc_a_OBJECTS = blas/scopy.$(OBJEXT) blas/dasum.$(OBJEXT) \
+	blas/daxpy.$(OBJEXT) blas/dcopy.$(OBJEXT) blas/dgemv.$(OBJEXT) \
+	blas/dger.$(OBJEXT) blas/dscal.$(OBJEXT) blas/dswap.$(OBJEXT) \
+	blas/dtbsv.$(OBJEXT) blas/idamax.$(OBJEXT) \
+	blas/lsame.$(OBJEXT) blas/xerbla.$(OBJEXT) \
+	blasext/ssum.$(OBJEXT) blasext/dsum.$(OBJEXT) \
+	interp/sinterp1.$(OBJEXT) interp/dinterp1.$(OBJEXT) \
+	lapack/dgbtf2.$(OBJEXT) lapack/dgbtrs.$(OBJEXT)
 libnumcalc_a_OBJECTS = $(am_libnumcalc_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -283,6 +284,7 @@ AM_CFLAGS = -Wall
 AUTOMAKE_OPTIONS = subdir-objects
 lib_LIBRARIES = libnumcalc.a
 libnumcalc_a_SOURCES = \
+    blas/scopy.c \
     blas/dasum.c \
     blas/daxpy.c \
     blas/dcopy.c \
@@ -294,8 +296,10 @@ libnumcalc_a_SOURCES = \
     blas/idamax.c \
     blas/lsame.c \
     blas/xerbla.c \
+    blasext/ssum.c \
     blasext/dsum.c \
-    interp/interp1.c \
+    interp/sinterp1.c \
+    interp/dinterp1.c \
     lapack/dgbtf2.c \
     lapack/dgbtrs.c
 
@@ -378,6 +382,8 @@ blas/$(am__dirstamp):
 blas/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) blas/$(DEPDIR)
 	@: > blas/$(DEPDIR)/$(am__dirstamp)
+blas/scopy.$(OBJEXT): blas/$(am__dirstamp) \
+	blas/$(DEPDIR)/$(am__dirstamp)
 blas/dasum.$(OBJEXT): blas/$(am__dirstamp) \
 	blas/$(DEPDIR)/$(am__dirstamp)
 blas/daxpy.$(OBJEXT): blas/$(am__dirstamp) \
@@ -406,6 +412,8 @@ blasext/$(am__dirstamp):
 blasext/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) blasext/$(DEPDIR)
 	@: > blasext/$(DEPDIR)/$(am__dirstamp)
+blasext/ssum.$(OBJEXT): blasext/$(am__dirstamp) \
+	blasext/$(DEPDIR)/$(am__dirstamp)
 blasext/dsum.$(OBJEXT): blasext/$(am__dirstamp) \
 	blasext/$(DEPDIR)/$(am__dirstamp)
 interp/$(am__dirstamp):
@@ -414,7 +422,9 @@ interp/$(am__dirstamp):
 interp/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) interp/$(DEPDIR)
 	@: > interp/$(DEPDIR)/$(am__dirstamp)
-interp/interp1.$(OBJEXT): interp/$(am__dirstamp) \
+interp/sinterp1.$(OBJEXT): interp/$(am__dirstamp) \
+	interp/$(DEPDIR)/$(am__dirstamp)
+interp/dinterp1.$(OBJEXT): interp/$(am__dirstamp) \
 	interp/$(DEPDIR)/$(am__dirstamp)
 lapack/$(am__dirstamp):
 	@$(MKDIR_P) lapack
@@ -452,9 +462,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/dtbsv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/idamax.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/lsame.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/scopy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blas/$(DEPDIR)/xerbla.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@blasext/$(DEPDIR)/dsum.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@interp/$(DEPDIR)/interp1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@blasext/$(DEPDIR)/ssum.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@interp/$(DEPDIR)/dinterp1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@interp/$(DEPDIR)/sinterp1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lapack/$(DEPDIR)/dgbtf2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lapack/$(DEPDIR)/dgbtrs.Po@am__quote@
 

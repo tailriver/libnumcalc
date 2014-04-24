@@ -56,4 +56,6 @@ int main(int argc, char** argv) {
   free(y);
   free(A);
   free(B);
+
+  return EXIT_SUCCESS;
 }

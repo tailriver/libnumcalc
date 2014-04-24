@@ -8,7 +8,7 @@ void clear(size_t n, double* x) {
     size_t i;
 
     for (i = 0; i < n; i++) {
-        x[i] = nan("");
+        x[i] = sqrt(-1);
     }
 }
 

@@ -76,7 +76,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = interp1$(EXEEXT)
+noinst_PROGRAMS = dinterp1$(EXEEXT)
 subdir = tests/interp
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -89,10 +89,10 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
-am_interp1_OBJECTS = interp1.$(OBJEXT)
-interp1_OBJECTS = $(am_interp1_OBJECTS)
-interp1_LDADD = $(LDADD)
-interp1_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
+am_dinterp1_OBJECTS = dinterp1.$(OBJEXT)
+dinterp1_OBJECTS = $(am_dinterp1_OBJECTS)
+dinterp1_LDADD = $(LDADD)
+dinterp1_DEPENDENCIES = $(top_builddir)/lib/libnumcalc.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -121,8 +121,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(interp1_SOURCES)
-DIST_SOURCES = $(interp1_SOURCES)
+SOURCES = $(dinterp1_SOURCES)
+DIST_SOURCES = $(dinterp1_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -239,7 +239,7 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
 AM_CFLAGS = -Wall
 LDADD = $(top_builddir)/lib/libnumcalc.a
-interp1_SOURCES = interp1.c
+dinterp1_SOURCES = dinterp1.c
 all: all-am
 
 .SUFFIXES:
@@ -278,9 +278,9 @@ $(am__aclocal_m4_deps):
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
 
-interp1$(EXEEXT): $(interp1_OBJECTS) $(interp1_DEPENDENCIES) $(EXTRA_interp1_DEPENDENCIES) 
-	@rm -f interp1$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(interp1_OBJECTS) $(interp1_LDADD) $(LIBS)
+dinterp1$(EXEEXT): $(dinterp1_OBJECTS) $(dinterp1_DEPENDENCIES) $(EXTRA_dinterp1_DEPENDENCIES) 
+	@rm -f dinterp1$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(dinterp1_OBJECTS) $(dinterp1_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -288,7 +288,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interp1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dinterp1.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

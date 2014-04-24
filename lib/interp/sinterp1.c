@@ -1,12 +1,12 @@
 #include "common.h"
 
-void interp1(
+void sinterp1(
     integer nt,
-    const double* xt,
-    const double* yt,
+    const float* xt,
+    const float* yt,
     integer n,
-    const double* x,
-    double* y,
+    const float* x,
+    float* y,
     integer* hint)
 {
     integer i, t;

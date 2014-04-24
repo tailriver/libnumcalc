@@ -9,7 +9,7 @@ int main(void) {
     double x[541], y[541];
     /* integer hint[541]; TODO */
     integer i;
-    
+
     /* xt9 is ascending order [0:360] by 45 degrees */
     for (i = 0; i < 9; i++) {
         xt9[i] = M_PI * i / 4;
@@ -36,7 +36,7 @@ int main(void) {
      *   $ ./a.out >stdout.txt
      *   $ gnuplot -e "plot sin(x), 'stdout.txt' index 0 with line"
      */
-    interp1(9, xt9, yt9, 541, x, y, NULL);
+    dinterp1(9, xt9, yt9, 541, x, y, NULL);
     for (i = 0; i < 541; i++) {
         printf("%e, %e\n", x[i], y[i]);
     }
@@ -45,7 +45,7 @@ int main(void) {
     /*
      *   $ gnuplot -e "plot sin(x), 'stdout.txt' index 1 with line"
      */
-    interp1(73, xt73, yt73, 541, x, y, NULL);
+    dinterp1(73, xt73, yt73, 541, x, y, NULL);
     for (i = 0; i < 541; i++) {
         printf("%e, %e\n", x[i], y[i]);
     }
